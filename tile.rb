@@ -7,15 +7,9 @@ class Tile
   IMAGE_HEIGHT = 99
 
 
-  def initialize(id, row, col, start_x, start_y, zoom: 1, face: :north)
+  def initialize(asset, row, col, start_x, start_y, zoom: 1)
     @zoom = zoom
-    @file = case id
-            when 1 then Asset.get_by(:grass, face)
-            when 2 then Asset.get_by(:road, face)
-            when 3 then Asset.get_by(:road_center, face)
-            when 4 then Asset.get_by(:road_left, face)
-            when 5 then Asset.get_by(:road_right, face)
-            end
+    @asset = asset
 
     @x1 = start_x + ((row - col) * WIDTH/2 * @zoom)
     @y1 = start_y + ((row + col) * HEIGHT/2 * @zoom)
@@ -23,7 +17,7 @@ class Tile
 
 
   def draw
-    Image.new( @file,
+    Image.new( @asset,
                x: @x1,
                y: @y1,
                width: IMAGE_WIDTH * @zoom,

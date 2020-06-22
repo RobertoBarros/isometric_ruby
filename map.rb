@@ -9,7 +9,13 @@ class Map
   [1,1,1,1,1,],
   ]
 
-  enum asset_map
+  ASSET_MAP = {
+    1 => :grass,
+    2 => :road,
+    3 => :road_center,
+    4 => :road_left,
+    5 => :road_right,
+  }
 
   def initialize
     @map = MAP
@@ -89,7 +95,8 @@ class Map
 
     @map.each do |row|
       row.each do |col|
-        t = Tile.new(col, x, y, @start_x, @start_y, zoom: @zoom, face: @face)
+        asset = Asset.get_by(ASSET_MAP[col], @face)
+        t = Tile.new(asset, x, y, @start_x, @start_y, zoom: @zoom)
         t.draw
         t.draw_grade if x == @local_x.to_i && y == @local_y.to_i
 
