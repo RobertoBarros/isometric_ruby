@@ -49,7 +49,7 @@ class Tile
       x3: x3, y3: y3,
       x4: x4, y4: y4,
       color: 'red',
-      opacity: 0.5
+      opacity: 0.2
     )
 
 

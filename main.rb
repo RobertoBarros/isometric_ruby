@@ -1,90 +1,47 @@
 require 'ruby2d'
+
+require_relative 'map'
 require_relative 'tile'
 require_relative 'asset'
 
-MAP = [
-[1,1,1,1,1,],
-[4,4,4,4,4,],
-[3,3,3,3,3,],
-[5,5,5,5,5,],
-[1,1,1,1,1,],
-]
+@map = Map.new
 
-def draw_map(pos_x, pos_y, map, zoom, face)
-  x = 0
-  y = 0
-
-  map.each do |row|
-    row.each do |col|
-      t = Tile.new(col, x, y, pos_x, pos_y, zoom: zoom, face: face)
-      t.draw
-      t.draw_grade if x == @local_x.to_i && y == @local_y.to_i
-
-      x += 1
-    end
-    x = 0
-    y += 1
-  end
-end
-
-@start_x = 300
-@start_y = 0
-@zoom = 1
-@map = MAP
-@faces = %i[north west south east]
-
+@map.start_x = 300
+@map.start_y = 0
 
 on :key_held do |event|
   if event.key == 'a'
-    @start_x -= 10
+    @map.start_x -= 10
   elsif event.key == 'd'
-    @start_x += 10
+    @map.start_x += 10
   elsif event.key == 'w'
-    @start_y += 10
+    @map.start_y += 10
   elsif event.key == 's'
-    @start_y -= 10
+    @map.start_y -= 10
   end
 end
 
-
 on :mouse_move do |event|
-
-  global_x = event.x
-  global_y = event.y
-
-  iso_x = @start_x + 32
-  iso_y = @start_y
-
-  iso_w = (128/2) * @zoom
-  iso_h =  (64/2) * @zoom
-
-  @local_x = ((global_y - iso_y) / iso_h + (global_x - iso_x) / iso_w) / 2;
-  @local_y = ((global_y - iso_y) / iso_h - (global_x - iso_x) / iso_w) / 2;
+  @map.show_grid(event.x, event.y)
 end
 
 on :key_down do |event|
   if event.key == 'q'
-    3.times do
-      @map = @map.transpose.map(&:reverse)
-      @faces.rotate!
-    end
+    @map.rotate_anticlockwise
   elsif event.key == 'e'
-    @map = @map.transpose.map(&:reverse)
-    @faces.rotate!
+    @map.rotate_clockwise
   elsif event.key == '='
-    @zoom += 0.5 if @zoom <= 3
+    @map.zoom_inc
   elsif event.key == '-'
-    @zoom -= 0.5 if @zoom > 0.5
+    @map.zoom_dec
   end
 end
 
-tick = 0
 update do
-  clear
-  draw_map(@start_x, @start_y, @map, @zoom, @faces.first)
-  Text.new("MOUSE: [#{@local_x.to_i},#{@local_y.to_i}]")
-  Text.new("FACE: [#{@faces.first}]", y: 50)
-  tick += 1
+  if @map.need_redraw
+    clear
+    @map.draw
+  end
 end
 
 set title: 'Isometric Ruby Engine'
