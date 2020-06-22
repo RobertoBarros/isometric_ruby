@@ -3,10 +3,10 @@ class Map
 
   MAP = [
   [1,1,1,1,1,],
-  [2,2,2,2,2,],
-  [4,4,4,4,4,],
+  [6,2,2,2,7,],
+  [4,4,4,1,1,],
   [3,3,3,3,3,],
-  [5,5,5,5,5,],
+  [1,1,5,5,5,],
   ]
 
   ASSET_MAP = {
@@ -15,6 +15,8 @@ class Map
     3 => :road_large_center,
     4 => :road_large_left,
     5 => :road_large_right,
+    6 => :road_end_left,
+    7 => :road_end_right,
   }
 
   def initialize
@@ -24,8 +26,8 @@ class Map
     @face = @faces.first
     @start_x = 0
     @start_y = 0
-    @local_x = 0
-    @local_y = 0
+    @local_x = -1
+    @local_y = -1
     @need_redraw = true
   end
 

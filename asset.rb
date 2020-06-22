@@ -15,6 +15,18 @@ class Asset
       east:  PATH % '082',
       west:  PATH % '082',
     },
+    road_end_left: {
+      north: PATH % '105',
+      south: PATH % '112',
+      east:  PATH % '117',
+      west:  PATH % '111',
+    },
+    road_end_right: {
+      north: PATH % '112',
+      south: PATH % '105',
+      east:  PATH % '111',
+      west:  PATH % '117',
+    },
     road_large_center: {
       north: PATH % '081',
       south: PATH % '081',
