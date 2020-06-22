@@ -3,18 +3,18 @@ class Map
 
   MAP = [
   [1,1,1,1,1,],
+  [2,2,2,2,2,],
   [4,4,4,4,4,],
   [3,3,3,3,3,],
   [5,5,5,5,5,],
-  [1,1,1,1,1,],
   ]
 
   ASSET_MAP = {
     1 => :grass,
     2 => :road,
-    3 => :road_center,
-    4 => :road_left,
-    5 => :road_right,
+    3 => :road_large_center,
+    4 => :road_large_left,
+    5 => :road_large_right,
   }
 
   def initialize

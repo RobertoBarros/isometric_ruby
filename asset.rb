@@ -1,39 +1,44 @@
 class Asset
+
+  PATH = "assets/landscape/landscapeTiles_%s.png"
+
+  ASSETS = {
+    grass: {
+      north: PATH % '075',
+      south: PATH % '075',
+      east:  PATH % '075',
+      west:  PATH % '075',
+    },
+    road: {
+      north: PATH % '074',
+      south: PATH % '074',
+      east:  PATH % '082',
+      west:  PATH % '082',
+    },
+    road_large_center: {
+      north: PATH % '081',
+      south: PATH % '081',
+      east:  PATH % '081',
+      west:  PATH % '081',
+    },
+    road_large_left: {
+      north: PATH % '080',
+      south: PATH % '095',
+      east:  PATH % '087',
+      west:  PATH % '088',
+    },
+    road_large_right: {
+      north: PATH % '095',
+      south: PATH % '080',
+      east:  PATH % '088',
+      west:  PATH % '087',
+    }
+  }
+
+
+
+
   def self.get_by(id, face)
-    case id
-    when :grass
-      'assets/landscape/landscapeTiles_075.png'
-    when :road
-      case face
-      when :north, :south
-        'assets/landscape/landscapeTiles_074.png'
-      when :east, :west
-        'assets/landscape/landscapeTiles_082.png'
-      end
-    when :road_center
-      'assets/landscape/landscapeTiles_081.png'
-    when :road_left
-      case face
-      when :north
-        'assets/landscape/landscapeTiles_080.png'
-      when :south
-        'assets/landscape/landscapeTiles_095.png'
-      when :east
-        'assets/landscape/landscapeTiles_087.png'
-      when :west
-        'assets/landscape/landscapeTiles_088.png'
-      end
-    when :road_right
-      case face
-      when :north
-        'assets/landscape/landscapeTiles_095.png'
-      when :south
-        'assets/landscape/landscapeTiles_080.png'
-      when :east
-        'assets/landscape/landscapeTiles_088.png'
-      when :west
-        'assets/landscape/landscapeTiles_087.png'
-      end
-    end
+    ASSETS[id][face]
   end
 end
