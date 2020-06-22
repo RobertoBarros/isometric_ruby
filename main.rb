@@ -3,11 +3,11 @@ require_relative 'tile'
 require_relative 'asset'
 
 MAP = [
-[2,2,2,2,2,],
-[1,1,2,1,1,],
-[1,2,2,2,1,],
 [1,1,1,1,1,],
-[1,1,2,2,2,],
+[4,4,4,4,4,],
+[3,3,3,3,3,],
+[5,5,5,5,5,],
+[1,1,1,1,1,],
 ]
 
 def draw_map(pos_x, pos_y, map, zoom, face)
@@ -83,6 +83,7 @@ update do
   clear
   draw_map(@start_x, @start_y, @map, @zoom, @faces.first)
   Text.new("MOUSE: [#{@local_x.to_i},#{@local_y.to_i}]")
+  Text.new("FACE: [#{@faces.first}]", y: 50)
   tick += 1
 end
 

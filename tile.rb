@@ -12,6 +12,9 @@ class Tile
     @file = case id
             when 1 then Asset.get_by(:grass, face)
             when 2 then Asset.get_by(:road, face)
+            when 3 then Asset.get_by(:road_center, face)
+            when 4 then Asset.get_by(:road_left, face)
+            when 5 then Asset.get_by(:road_right, face)
             end
 
     @x1 = start_x + ((row - col) * WIDTH/2 * @zoom)
