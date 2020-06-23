@@ -1,8 +1,6 @@
 require 'ruby2d'
 
 require_relative 'map'
-require_relative 'tile'
-require_relative 'asset'
 
 @map = Map.new
 

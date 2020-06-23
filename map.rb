@@ -1,17 +1,22 @@
+require_relative 'face'
+require_relative 'tile'
+require_relative 'road_builder'
+require_relative 'asset'
+
 class Map
   attr_reader :start_x, :start_y, :zoom, :face, :need_redraw
 
   MAP = [
-  [1,1,1,1,1,],
-  [6,2,2,2,7,],
-  [4,4,4,1,1,],
-  [3,3,3,3,3,],
-  [1,1,5,5,5,],
+  %w[G G G G G],
+  %w[G G G G G],
+  %w[G G R R G],
+  %w[G G G G G],
+  %w[G G G G G],
   ]
 
   ASSET_MAP = {
-    1 => :grass,
-    2 => :road,
+    'G' => :grass,
+    'R' => :road,
     3 => :road_large_center,
     4 => :road_large_left,
     5 => :road_large_right,
@@ -22,8 +27,7 @@ class Map
   def initialize
     @map = MAP
     @zoom = 1
-    @faces = %i[north west south east]
-    @face = @faces.first
+    @face = Face.new
     @start_x = 0
     @start_y = 0
     @local_x = -1
@@ -57,17 +61,15 @@ class Map
 
   def rotate_clockwise
     @map = @map.transpose.map(&:reverse)
-    @faces.rotate!
-    @face = @faces.first
+    @face.rotate_clockwise
     need_redraw!
   end
 
   def rotate_anticlockwise
     3.times do
       @map = @map.transpose.map(&:reverse)
-      @faces.rotate!
+      @face.rotate_anticlockwise
     end
-    @face = @faces.first
     need_redraw!
   end
 
@@ -92,20 +94,20 @@ class Map
 
   def draw
     return unless @need_redraw
-    x = 0
-    y = 0
 
-    @map.each do |row|
-      row.each do |col|
-        asset = Asset.get_by(ASSET_MAP[col], @face)
-        t = Tile.new(asset, x, y, @start_x, @start_y, zoom: @zoom)
+    (0..@map.size - 1).each do |row|
+      (0..@map[row].size - 1).each do |col|
+
+        if @map[row][col] == 'R'
+          asset = RoadBuilder.road(MAP, row, col, @face)
+        else
+          asset = Asset.get_by(ASSET_MAP[@map[row][col]], @face.current)
+        end
+
+        t = Tile.new(asset, row, col, @start_x, @start_y, zoom: @zoom)
         t.draw
-        t.draw_grade if x == @local_x.to_i && y == @local_y.to_i
-
-        x += 1
+        t.draw_grade if row == @local_x.to_i && col == @local_y.to_i
       end
-      x = 0
-      y += 1
     end
 
     @need_redraw = false
