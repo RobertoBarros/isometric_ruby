@@ -32,10 +32,16 @@ on :key_down do |event|
     @map.zoom_inc
   elsif event.key == '-'
     @map.zoom_dec
+  elsif event.key == 'escape'
+    @quit = true
   end
 end
 
+
+@quit = false
 update do
+  close if @quit
+
   if @map.need_redraw
     clear
     @map.draw
